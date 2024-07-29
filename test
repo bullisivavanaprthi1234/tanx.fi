@@ -1,0 +1,53 @@
+# Writing Tests for the TASKS
+
+You can use the testthat package to write tests in R. First, install the package if you haven't already.
+# Load necessary libraries
+library(testthat)
+
+# Source the functions to be tested
+source("orders.csv")
+
+# Define the tests
+TEST1:
+
+test_that("Monthly revenue computation", {
+  monthly_revenue <- df %>%
+    group_by(month) %>%
+    summarise(total_revenue = sum(total_price))
+  
+  expect_true(nrow(monthly_revenue) > 0, info = "Monthly revenue computation failed")
+})
+
+TEST2:
+
+test_that("Product revenue computation", {
+  product_revenue <- df %>%
+    group_by(product_id, product_name) %>%
+    summarise(total_revenue = sum(total_price))
+  
+  expect_true(nrow(product_revenue) > 0, info = "Product revenue computation failed")
+})
+
+TEST 3:
+
+test_that("Customer revenue computation", {
+  customer_revenue <- df %>%
+    group_by(customer_id) %>%
+    summarise(total_revenue = sum(total_price))
+  
+  expect_true(nrow(customer_revenue) > 0, info = "Customer revenue computation failed")
+})
+
+TEST 4:
+test_that("Top 10 customers computation", {
+  customer_revenue <- df %>%
+    group_by(customer_id) %>%
+    summarise(total_revenue = sum(total_price))
+  
+  top_10_customers <- customer_revenue %>%
+    arrange(desc(total_revenue)) %>%
+    head(10)
+  
+  expect_equal(nrow(top_10_customers), 10, info = "Top 10 customers computation failed")
+})
+
